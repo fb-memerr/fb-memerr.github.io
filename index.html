@@ -49,7 +49,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="storage">Storage Size (TB)</label>
+                  <label for="storage">Storage Size (GB)</label>
                   <span class="text-muted"><i id="storage-info" class="glyphicon glyphicon-info-sign pull-right" data-toggle="tooltip" data-title="The size of the storage in the system" data-placement="right" data-container="body"></i></span>
                   <input class="form-control" id="storage">
                 </div>
@@ -113,13 +113,13 @@
         var coresTerm = coeff["cores"] * cores;
         var storageTerm = coeff["storage"] * storage;
         var logOdds = coeff["intercept"] + coresTerm + densityTerm + ageTerm + storageTerm;
-	return Math.exp(logOdds)/(1 - Math.exp(logOdds));
+	return Math.exp(logOdds)/(1 + Math.exp(logOdds));
       }
 
       $('#cores').val('8');
       $('#age').val('1.5');
       $('#dropdown-density').html('2 Gb <span class="caret"></span>')
-      $('#storage').val('1');
+      $('#storage').val('1024');
 
       $('#cores').keypress(function(e) {
         if (e.which == 13) plotErrorRate();
@@ -135,9 +135,6 @@
       $('#age-info').tooltip();
       $('#density-info').tooltip();
       $('#storage-info').tooltip();
-
-      $('#sec-ded').button('toggle');
-      $('#dec-ted').button('toggle');
 
       var cores;
       var age;
@@ -162,7 +159,7 @@
         setChartSize();
 
         cores = parseInt($('#cores').val());
-        age = parseInt($('#age').val());
+        age = parseFloat($('#age').val());
         density = $('#dropdown-density').text().trim();
         storage = $('#storage').val();
 
